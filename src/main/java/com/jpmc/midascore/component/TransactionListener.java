@@ -7,12 +7,19 @@ import com.jpmc.midascore.foundation.Transaction;
 
 @Component
 public class TransactionListener {
-    
+
     @Value("${general.kafka-topic}")
     private String transaction;
+
+    private TransactiontoDB tDb;
+
+    public TransactionListener(TransactiontoDB tDb){
+        this.tDb = tDb;
+    }
     
     @KafkaListener(topics = "${general.kafka-topic}", groupId = "midas")
     public void myListener(Transaction trans) {
-        System.out.println("The received transaction are: " + trans);
+        //String message = 
+        tDb.addTransaction(trans);
     }
 }
